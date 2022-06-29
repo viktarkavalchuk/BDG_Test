@@ -11,10 +11,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.NoResultException;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 @RestController
@@ -23,6 +33,8 @@ public class DataController {
 
 
     private static final Logger logger = LoggerFactory.getLogger(DataController.class);
+
+    private static String PIC_FOLDER = "images//";
     private final DataRepository dataRepository;
     private final BasicConverter<Data, DataDto> converter;
 
@@ -41,19 +53,40 @@ public class DataController {
 
 
     @PostMapping
-    public ResponseEntity<?> createData(@RequestParam(value = "date", required = false) Date date,
+    public ResponseEntity<?> createData(@RequestParam(value = "date", required = false) String date,
                                                 @RequestParam(value = "text", required = false) String text,
-                                                @RequestParam(value = "image", required = false) String image,
+                                                @RequestParam(value = "image", required = false) MultipartFile image,
                                                 @RequestParam(value = "number", required = false) Integer number) {
-
         Data newData = new Data();
-        newData.setDate(date);
-        newData.setText(text);
-        newData.setImage(image);
-        newData.setNumber(number);
+        try {
+            // Get the file and save it somewhere
+            byte[] bytes = image.getBytes();
 
+            String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+            Path path = Paths.get(PIC_FOLDER + currentDate + "_" + image.getOriginalFilename());
+            Files.write(path, bytes);
+            newData.setImage(path.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (date != null) {
+            try{
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                newData.setDate(formatter.parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }
+        if (text != null) {
+            newData.setText(text);
+        }
+        if (number != null) {
+            newData.setNumber(number);
+        }
         dataRepository.save(newData);
-
         return new ResponseEntity<>(converter.convertToDto(newData, DataDto.class), HttpStatus.OK);
     }
 
