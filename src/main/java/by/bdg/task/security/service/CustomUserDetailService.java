@@ -16,11 +16,11 @@ import java.util.*;
 @Service("jpaUserDetailsService")
 @Repository
 @Transactional
-public class UserDetailService implements UserDetailsService {
+public class CustomUserDetailService implements UserDetailsService {
 
     private final UserSecurityRepository userSecurityRepository;
 
-    public UserDetailService(UserSecurityRepository userSecurityRepository) {
+    public CustomUserDetailService(UserSecurityRepository userSecurityRepository) {
         this.userSecurityRepository = userSecurityRepository;
     }
 

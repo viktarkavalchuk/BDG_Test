@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.NoResultException;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,19 +56,18 @@ public class DataController {
                                                 @RequestParam(value = "image", required = false) MultipartFile image,
                                                 @RequestParam(value = "number", required = false) Integer number) {
         Data newData = new Data();
+
         try {
-            // Get the file and save it somewhere
+            // Get the file and save it to PIC_FOLDER
             byte[] bytes = image.getBytes();
-
             String currentDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-
             Path path = Paths.get(PIC_FOLDER + currentDate + "_" + image.getOriginalFilename());
             Files.write(path, bytes);
             newData.setImage(path.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        //Set Date
         if (date != null) {
             try{
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -80,12 +77,15 @@ public class DataController {
             }
 
         }
+        //Set Text
         if (text != null) {
             newData.setText(text);
         }
+        //Set Number
         if (number != null) {
             newData.setNumber(number);
         }
+        //Save to DB
         dataRepository.save(newData);
         return new ResponseEntity<>(converter.convertToDto(newData, DataDto.class), HttpStatus.OK);
     }

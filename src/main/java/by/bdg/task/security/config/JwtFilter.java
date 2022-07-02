@@ -1,6 +1,6 @@
 package by.bdg.task.security.config;
 
-import by.bdg.task.security.service.UserDetailService;
+import by.bdg.task.security.service.CustomUserDetailService;
 import by.bdg.task.security.utils.JwtUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,9 +19,9 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailService service;
+    private final CustomUserDetailService service;
 
-    public JwtFilter(JwtUtil jwtUtil, UserDetailService service) {
+    public JwtFilter(JwtUtil jwtUtil, CustomUserDetailService service) {
         this.jwtUtil = jwtUtil;
         this.service = service;
     }
