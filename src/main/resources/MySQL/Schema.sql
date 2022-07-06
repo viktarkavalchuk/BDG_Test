@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `BDG`.`User` (
   `password` VARCHAR(70) NULL,
   `role` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
@@ -40,11 +40,11 @@ DROP TABLE IF EXISTS `BDG`.`Entries` ;
 CREATE TABLE IF NOT EXISTS `BDG`.`Entries` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `date` DATE NULL,
-  `text` VARCHAR(512) NULL,
+  `text` VARCHAR(10000) NULL,
   `image` VARCHAR(255) NULL,
   `number` INT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -67,11 +67,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `BDG`;
-INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-01-20', 'Над Беларуссю Сонца марудна ўстае, I спяшаецца за навалай навала. Адам Міцкевіч паліць Беларускія вершы свае, Каб напісаў іх Янка Купала... ', NULL, 123454);
-INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-03-20', 'Прыціхлая прырода засынае, Прыносіць лістапад спакой. Апошні ліст з галін злятае, Апошні сведка квецені былой. І ў люстры белае вады глядзяцца з сумам камышы, ім баюць казкі халады пра адпачынак ў цішы.  І шэры лес стаіць у тумане, Ён размаўляе сам з сабою: “вясна – гэта жыцця світанне, дзень – лета, восень - час спакою”', NULL, 123455);
-INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-02-20', NULL, NULL, 123456);
-INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-01-20', NULL, NULL, 123457);
-INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-01-01', NULL, NULL, 123458);
+INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-01-20', 'Над Беларуссю Сонца марудна ўстае, I спяшаецца за навалай навала. Адам Міцкевіч паліць Беларускія вершы свае, Каб напісаў іх Янка Купала... ', 'images/1.jpg', 123454);
+INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-03-20', 'Прыціхлая прырода засынае, Прыносіць лістапад спакой. Апошні ліст з галін злятае, Апошні сведка квецені былой. І ў люстры белае вады глядзяцца з сумам камышы, ім баюць казкі халады пра адпачынак ў цішы.  І шэры лес стаіць у тумане, Ён размаўляе сам з сабою: “вясна – гэта жыцця світанне, дзень – лета, восень - час спакою”', 'images/2.jpg', -1);
+INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-02-20', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Viverra adipiscing at in tellus integer. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Feugiat sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi. Suspendisse ultrices gravida dictum fusce. Consectetur lorem donec massa sapien. Egestas purus viverra accumsan in nisl nisi. A cras semper auctor neque. Cras semper auctor neque vitae tempus quam pellentesque. Massa placerat duis ultricies lacus sed turpis tincidunt id. Sit amet mattis vulputate enim nulla aliquet porttitor lacus luctus. Vel turpis nunc eget lorem dolor sed.', 'images/3.jpg', 01234);
+INSERT INTO `BDG`.`Entries` (`id`, `date`, `text`, `image`, `number`) VALUES (DEFAULT, '2022-11-20', NULL, NULL, 987654);
+
 
 COMMIT;
 

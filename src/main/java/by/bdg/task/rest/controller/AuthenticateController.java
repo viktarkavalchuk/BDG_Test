@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/")
 public class AuthenticateController {
 
@@ -37,11 +36,12 @@ public class AuthenticateController {
                             authRequest.getPassword())
             );
             logger.info("Authorization attempt");
-            String string = jwtUtil.generateToken(authRequest.getUserName());
+            String string = String.format("{\"username\":\"%s\",\"token\":\"%s\"}",authRequest.getUserName(),
+                    jwtUtil.generateToken(authRequest.getUserName()));
             responseEntity = new ResponseEntity<>(string, HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Invalid username or password" + e);
-            responseEntity = new ResponseEntity<>("Invalid username or password", HttpStatus.OK);
+            responseEntity = new ResponseEntity<>("Invalid username or password", HttpStatus.FORBIDDEN);
         }
         return responseEntity;
     }
